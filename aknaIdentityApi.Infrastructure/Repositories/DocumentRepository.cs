@@ -28,7 +28,6 @@ namespace aknaIdentityApi.Infrastructure.Repositories
                 UserId = userId,
                 CompanyId = companyId,
                 DocumentCategory = doc.DocumentCategory,
-                DocumentType = doc.DocumentType,
                 DocumentNumber = doc.DocumentNumber,
                 ExpirationDate = doc.ExpirationDate,
                 FileUrl = doc.FileUrl,

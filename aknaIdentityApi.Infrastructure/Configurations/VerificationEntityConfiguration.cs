@@ -18,9 +18,6 @@ namespace aknaIdentityApi.Infrastructure.Configurations
                 .IsRequired()
                 .HasMaxLength(50);
 
-            builder.Property(x => x.VerificationType)
-                .HasConversion<string>();
-
             builder.HasOne<User>()
                 .WithMany()
                 .HasForeignKey(x => x.UserId)

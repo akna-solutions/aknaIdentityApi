@@ -25,6 +25,7 @@ namespace aknaIdentityApi.Infrastructure.Contexts
         public DbSet<Verification> Verifications { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Permission> Permissions { get; set; }
+        public DbSet<UserToken> UserTokens { get; set; }
 
         /// <summary>
         /// Configures the database model with entity configurations

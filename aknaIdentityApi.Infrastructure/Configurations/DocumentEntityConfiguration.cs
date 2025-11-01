@@ -10,13 +10,6 @@ namespace aknaIdentityApi.Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<Document> builder)
         {
 
-            builder.Property(x => x.DocumentType)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            builder.Property(x => x.DocumentCategory)
-                .HasConversion<string>();
-
             builder.Property(x => x.FileUrl)
                 .IsRequired()
                 .HasMaxLength(500);
