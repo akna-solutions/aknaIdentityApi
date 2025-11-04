@@ -1,12 +1,14 @@
 ﻿using aknaIdentityApi.Domain.Dtos.Requests;
 using aknaIdentityApi.Domain.Entities;
+using aknaIdentityApi.Domain.Enums;
 using aknaIdentityApi.Domain.Interfaces.Repositories;
 using aknaIdentityApi.Infrastructure.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace aknaIdentityApi.Infrastructure.Repositories
 {
-    public class CompanyRepository : BaseRepository<User>, ICompanyRepository
+    public class CompanyRepository : BaseRepository<Company>, ICompanyRepository
     {
         public CompanyRepository(AknaIdentityDbContext context) : base(context)
         {
@@ -94,6 +96,67 @@ namespace aknaIdentityApi.Infrastructure.Repositories
             await context.Companies.AddAsync(company);
             await context.SaveChangesAsync();
             return company.Id;
+        }
+
+        public new async Task<Company?> GetByIdAsync(long id)
+        {
+            return await context.Companies
+                .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
+        }
+
+        public async Task<IEnumerable<Company>> GetAllAsync()
+        {
+            return await context.Companies
+                .Where(c => !c.IsDeleted)
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Company>> GetByStatusAsync(CompanyStatus status)
+        {
+            return await context.Companies
+                .Where(c => c.Status == status && !c.IsDeleted)
+                .OrderByDescending(c => c.CreatedDate)
+                .ToListAsync();
+        }
+
+        public async Task<Company?> GetByTaxNumberAsync(string taxNumber)
+        {
+            return await context.Companies
+                .FirstOrDefaultAsync(c => c.TaxNumber == taxNumber && !c.IsDeleted);
+        }
+
+        public async Task<bool> ApproveCompanyAsync(long id, string approvedBy)
+        {
+            var company = await context.Companies.FindAsync(id);
+            if (company == null || company.IsDeleted)
+            {
+                return false;
+            }
+
+            company.Status = CompanyStatus.Approved;
+            company.ApprovedDate = DateTime.UtcNow;
+            company.ApprovedBy = approvedBy;
+            company.UpdatedDate = DateTime.UtcNow;
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> RejectCompanyAsync(long id, string rejectionReason, string rejectedBy)
+        {
+            var company = await context.Companies.FindAsync(id);
+            if (company == null || company.IsDeleted)
+            {
+                return false;
+            }
+
+            company.Status = CompanyStatus.Rejected;
+            company.RejectionReason = rejectionReason;
+            company.UpdatedDate = DateTime.UtcNow;
+            await context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

@@ -6,7 +6,7 @@ using aknaIdentityApi.Infrastructure.Contexts;
 
 namespace aknaIdentityApi.Infrastructure.Repositories
 {
-    public class DeviceInfoRepository : BaseRepository<User>, IDeviceInfoRepository
+    public class DeviceInfoRepository : BaseRepository<DeviceInfo>, IDeviceInfoRepository
     {
         public DeviceInfoRepository(AknaIdentityDbContext context) : base(context)
         {
