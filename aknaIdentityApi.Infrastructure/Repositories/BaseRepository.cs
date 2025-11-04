@@ -1,5 +1,4 @@
-﻿
-using aknaIdentityApi.Domain.Base;
+﻿using aknaIdentityApi.Domain.Base;
 using aknaIdentityApi.Domain.Interfaces.Repositories;
 using aknaIdentityApi.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -116,6 +115,20 @@ namespace aknaIdentityApi.Infrastructure.Repositories
         {
             ArgumentNullException.ThrowIfNull(entities);
             _dbSet.UpdateRange(entities);
+        }
+
+        public virtual async Task<TEntity?> UpdateAsync(TEntity updatedEntity)
+        {
+            ArgumentNullException.ThrowIfNull(updatedEntity);
+
+            var entity = await GetByIdAsync(updatedEntity.Id);
+            if (entity == null) return null;
+
+            // Update properties (excluding Id and audit fields)
+            context.Entry(entity).CurrentValues.SetValues(updatedEntity);
+            entity.UpdatedDate = DateTime.UtcNow;
+
+            return entity;
         }
 
         // Delete Operations

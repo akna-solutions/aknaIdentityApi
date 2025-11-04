@@ -34,6 +34,11 @@ namespace aknaIdentityApi.Infrastructure.UnitOfWorks
             return _context.SaveChanges();
         }
 
+        public virtual async Task<int> CommitAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
+
         /// <summary>
         /// Begins a new database transaction
         /// </summary>

@@ -9,6 +9,7 @@ namespace aknaIdentityApi.Domain.Interfaces.UnitOfWorks
     {
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         int SaveChanges();
+        Task<int> CommitAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();

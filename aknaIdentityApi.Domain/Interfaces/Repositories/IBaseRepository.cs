@@ -35,6 +35,7 @@ namespace aknaIdentityApi.Domain.Interfaces.Repositories
 
         // Update Operations
         void Update(TEntity entity);
+        Task<TEntity?> UpdateAsync(TEntity updatedEntity);
         void UpdateRange(IEnumerable<TEntity> entities);
 
         // Delete Operations
