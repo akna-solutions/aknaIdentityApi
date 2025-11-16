@@ -1,6 +1,7 @@
 ﻿using aknaIdentityApi.Domain.Dtos.Requests;
 using aknaIdentityApi.Domain.Dtos.Responses;
 using aknaIdentityApi.Domain.Entities;
+using aknaIdentityApi.Domain.Enums;
 using aknaIdentityApi.Domain.Interfaces.Repositories;
 using aknaIdentityApi.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
@@ -61,7 +62,7 @@ namespace aknaIdentityApi.Business.Services
             request.Password = HashPassword(request.Password);
 
             // Şirket kaydı (bireysel nakliyeci ise)
-            if (request.UserType.ToString() == "IndividualCarrier")
+            if (request.UserType == UserType.IndividualCarrier)
             {
                 request.CompanyId = await companyRepository.AddCompanyAsync(request);
             }
