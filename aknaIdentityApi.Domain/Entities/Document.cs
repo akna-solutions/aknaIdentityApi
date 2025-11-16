@@ -10,7 +10,7 @@ namespace aknaIdentityApi.Domain.Entities
         public long UserId { get; set; }
         public long CompanyId { get; set; }
         public DocumentCategory DocumentCategory { get; set; } // Identity, License, Insurance, etc.
-        public int DocumentNumber { get; set; }
+        public string DocumentNumber { get; set; }
         public DateTime ExpirationDate { get; set; }
         public string FileUrl { get; set; }
         public bool IsVerified { get; set; }
